@@ -1,0 +1,27 @@
+package it.redhat.hacep.playground.rules.reward.catalog;
+
+import it.redhat.hacep.playground.rules.model.BroFact;
+import it.redhat.hacep.playground.rules.model.SuricataFact;
+
+declare BroFact
+    @role( event )
+    @timestamp( timestamp.getTime() )
+    @expires( 10m )
+end
+
+declare SuricataFact
+    @role( event )
+    @timestamp( timestamp.getTime() )
+    @expires( 10m )
+end
+
+rule "Flag more than four DNS responses from the same host in the last 5 minutes"
+when
+	$dnsResp : BroFact( getTextField("/@system") == "dns", $host : getTextField("/id_resp_h") ) over window:length(1)
+    $numberOfTimes : ( Number() > 4 ) from accumulate 
+    	$dnsRespCount : BroFact( getTextField("/@system") == "dns", getTextField("/id_resp_h") == $host )
+    		over window:time(5m), count($dnsRequestCount))
+then
+	System.out.println("DNS response occurred " + $numberOfTimes + " in last five minutes");
+end
+
