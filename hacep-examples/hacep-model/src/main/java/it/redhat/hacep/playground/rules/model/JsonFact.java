@@ -15,7 +15,7 @@ public abstract class JsonFact implements Fact {
 
 	protected transient Object mutex = new Object();
 	protected transient volatile JsonNode objTree = null;
-	protected transient volatile Map<String, JsonPointer> jsonPtrMap = new ConcurrentHashMap<String, JsonPointer>();
+	protected transient volatile Map<String, JsonPointer> jsonPtrMap = null;
 
 	protected long id;
 	protected String jsonString;
@@ -57,13 +57,31 @@ public abstract class JsonFact implements Fact {
 	protected JsonNode getField(String jsonPath) {
 		String fullJsonPath = jsonPath.startsWith("/") ? jsonPath : "/" + jsonPath;
 
-		JsonPointer jsonPtr = jsonPtrMap.get(fullJsonPath);
+		Map<String, JsonPointer> map = getJSONPointerMap();
+		JsonPointer jsonPtr = map.get(fullJsonPath);
+
 		if (jsonPtr == null) {
 			jsonPtr = JsonPointer.valueOf(fullJsonPath);
 			jsonPtrMap.put(fullJsonPath, jsonPtr);
 		}
 
 		return parseObjTree().at(jsonPtr);
+	}
+
+	// this is thread-safe and performant
+	protected Map<String, JsonPointer> getJSONPointerMap() {
+		// access field only once if already set
+		Map<String, JsonPointer> result = jsonPtrMap;
+		if (result == null) {
+			synchronized (mutex) {
+				result = jsonPtrMap;
+				if (result == null) {
+					jsonPtrMap = result = new ConcurrentHashMap<String, JsonPointer>();
+				}
+			}
+		}
+
+		return result;
 	}
 
 	// this is thread-safe and performant
