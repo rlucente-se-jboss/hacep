@@ -13,9 +13,10 @@ public abstract class JsonFact implements Fact {
 	private static final long serialVersionUID = -8496222462870211407L;
 	private static final ObjectMapper mapper = new ObjectMapper();
 
-	protected transient Object mutex = new Object();
 	protected transient volatile JsonNode objTree = null;
 	protected transient volatile Map<String, JsonPointer> jsonPtrMap = null;
+
+	protected Object mutex = new Object();
 
 	protected long id;
 	protected String jsonString;
