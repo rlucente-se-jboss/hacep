@@ -16,8 +16,6 @@ public abstract class JsonFact implements Fact {
 	protected transient volatile JsonNode objTree = null;
 	protected transient volatile Map<String, JsonPointer> jsonPtrMap = null;
 
-	protected Object mutex = new Object();
-
 	protected long id;
 	protected String jsonString;
 
@@ -74,7 +72,7 @@ public abstract class JsonFact implements Fact {
 		// access field only once if already set
 		Map<String, JsonPointer> result = jsonPtrMap;
 		if (result == null) {
-			synchronized (mutex) {
+			synchronized (jsonString) {
 				result = jsonPtrMap;
 				if (result == null) {
 					jsonPtrMap = result = new ConcurrentHashMap<String, JsonPointer>();
@@ -90,7 +88,7 @@ public abstract class JsonFact implements Fact {
 		// access field only once if already set
 		JsonNode result = objTree;
 		if (result == null) {
-			synchronized (mutex) {
+			synchronized (jsonString) {
 				result = objTree;
 				if (result == null) {
 					try {
