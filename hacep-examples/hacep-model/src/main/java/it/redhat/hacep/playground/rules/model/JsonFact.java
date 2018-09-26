@@ -36,17 +36,17 @@ public abstract class JsonFact implements Fact {
 		this.jsonString = jsonString;
 	}
 
-	// if the field name is not a number, this returns 0
-	public Long getNumberField(String fieldName) {
-		return getField(fieldName).asLong();
+	// if the returned value is not a number, this returns 0
+	public Long getNumberField(String jsonPath) {
+		return getField(jsonPath).asLong();
 	}
 
-	public String getTextField(String fieldName) {
-		return getField(fieldName).asText();
+	public String getTextField(String jsonPath) {
+		return getField(jsonPath).asText();
 	}
 
-	protected JsonNode getField(String fieldName) {
-		return getObjTree().at(fieldName.startsWith("/") ? fieldName : "/" + fieldName);
+	protected JsonNode getField(String jsonPath) {
+		return getObjTree().at(jsonPath.startsWith("/") ? jsonPath : "/" + jsonPath);
 	}
 
 	// this is thread-safe and performant
@@ -60,6 +60,7 @@ public abstract class JsonFact implements Fact {
 					try {
 						objTree = result = mapper.readTree(jsonString);
 					} catch (Exception e) {
+						// TODO don't eat exceptions!
 						e.printStackTrace(System.err);
 					}
 				}
