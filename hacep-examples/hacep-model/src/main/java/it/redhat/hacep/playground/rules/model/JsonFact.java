@@ -1,5 +1,9 @@
 package it.redhat.hacep.playground.rules.model;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import com.fasterxml.jackson.core.JsonPointer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -11,6 +15,7 @@ public abstract class JsonFact implements Fact {
 
 	protected transient Object mutex = new Object();
 	protected transient volatile JsonNode objTree = null;
+	protected transient volatile Map<String, JsonPointer> jsonPtrMap = new ConcurrentHashMap<String, JsonPointer>();
 
 	protected long id;
 	protected String jsonString;
@@ -45,12 +50,24 @@ public abstract class JsonFact implements Fact {
 		return getField(jsonPath).asText();
 	}
 
+	public boolean hasField(String jsonPath) {
+		return !getField(jsonPath).isMissingNode();
+	}
+
 	protected JsonNode getField(String jsonPath) {
-		return getObjTree().at(jsonPath.startsWith("/") ? jsonPath : "/" + jsonPath);
+		String fullJsonPath = jsonPath.startsWith("/") ? jsonPath : "/" + jsonPath;
+
+		JsonPointer jsonPtr = jsonPtrMap.get(fullJsonPath);
+		if (jsonPtr == null) {
+			jsonPtr = JsonPointer.valueOf(fullJsonPath);
+			jsonPtrMap.put(fullJsonPath, jsonPtr);
+		}
+
+		return parseObjTree().at(jsonPtr);
 	}
 
 	// this is thread-safe and performant
-	protected JsonNode getObjTree() {
+	protected JsonNode parseObjTree() {
 		// access field only once if already set
 		JsonNode result = objTree;
 		if (result == null) {
