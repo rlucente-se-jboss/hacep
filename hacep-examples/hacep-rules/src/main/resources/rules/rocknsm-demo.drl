@@ -22,7 +22,7 @@ when
 	    	$dnsRespCount : BroFact( _at_stream == $bro._at_stream, id_resp_h == $host) over window:time(5m),
 		count($dnsRespCount))
 then
-	System.err.println("Rule 0: DNS response from " + $host + " occurred " + $numberOfTimes + " in last five minutes");
+	System.err.println("Rule 0: DNS response from " + $host + " occurred " + $numberOfTimes + " times in last five minutes");
 end
 
 rule "BroFact test rule 1"
