@@ -27,8 +27,8 @@ end
 
 rule "BroFact test rule"
 when
-	BroFact() over window:length(1)
+	$bro : BroFact() over window:length(1)
 then
-	System.err.println("BroFact found");
+	System.err.println("BroFact found " + $bro.toString());
 end
 
