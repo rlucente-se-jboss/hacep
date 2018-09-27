@@ -39,3 +39,10 @@ then
 	System.err.println("Rule 2: BroFact found " + $bro);
 end
 
+rule "Suricata test rule 0"
+when
+	$suricata : Suricata() over window:length(1)
+then
+	System.err.println("Rule 0: Suricata found " + $suricata);
+end
+
