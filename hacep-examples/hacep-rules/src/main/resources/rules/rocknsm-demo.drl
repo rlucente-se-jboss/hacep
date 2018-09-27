@@ -17,9 +17,10 @@ end
 
 rule "Flag more than four DNS responses from the same host in the last 5 minutes"
 when
-	BroFact( getTextField("/@stream") == "dns", $host : getTextField("/id_resp_h") ) over window:length(1)
+        bro : BroFact( eval( "dns".equals(getTextField("/@stream")) )) over window:length(1)
 	$numberOfTimes : Number( intValue > 4 ) from accumulate (
-	    	$dnsRespCount : BroFact( getTextField("/@stream") == "dns", getTextField("/id_resp_h") == $host ) over window:time(5m),
+	    	$dnsRespCount : BroFact( eval( getTextField("/@stream").equals( bro.getTextField("/@stream"))),
+                                         eval( getTextField("/id_resp_h").equals( bro.getTextField("/id_resp_h"))) ) over window:time(5m),
 		count($dnsRespCount))
 then
 	System.err.println("Rule 0: DNS response occurred " + $numberOfTimes + " in last five minutes");
