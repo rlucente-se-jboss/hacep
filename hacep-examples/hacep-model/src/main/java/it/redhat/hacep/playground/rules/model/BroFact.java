@@ -45,7 +45,7 @@ public class BroFact implements Fact {
 	protected String uid;
 
 	/*
-	 * number fields
+	 * numeric fields
 	 */
 	protected Long Z;
 	protected Long active_dns_requests;
@@ -88,9 +88,9 @@ public class BroFact implements Fact {
 	protected Long trans_id;
 	protected Long udp_conns;
 
-	public BroFact() {	
+	public BroFact() {
 	}
-	
+
 	@JsonIgnore
 	@Override
 	public Instant getInstant() {
@@ -621,8 +621,7 @@ public class BroFact implements Fact {
 		if (!(o instanceof BroFact))
 			return false;
 		BroFact broFact = (BroFact) o;
-		return id == broFact.id && Objects.equals(_at_system, broFact._at_system)
-				&& Objects.equals(ts, broFact.ts);
+		return id == broFact.id && Objects.equals(_at_system, broFact._at_system) && Objects.equals(ts, broFact.ts);
 	}
 
 	@Override
@@ -631,11 +630,7 @@ public class BroFact implements Fact {
 	}
 
 	@Override
-    public String toString() {
-        return "BroFact{" +
-                "id=" + id +
-                ", @system=" + _at_system +
-                ", ts=" + ts +
-                '}';
-    }
+	public String toString() {
+		return "BroFact{" + "id=" + id + ", @system=" + _at_system + ", ts=" + ts + '}';
+	}
 }
