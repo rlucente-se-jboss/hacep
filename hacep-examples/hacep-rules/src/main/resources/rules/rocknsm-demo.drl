@@ -41,8 +41,8 @@ end
 
 rule "Suricata test rule 0"
 when
-	$suricata : Suricata() over window:length(1)
+	$suricata : SuricataFact() over window:length(1)
 then
-	System.err.println("Rule 0: Suricata found " + $suricata);
+	System.err.println("Rule 0: SuricataFact found " + $suricata);
 end
 
