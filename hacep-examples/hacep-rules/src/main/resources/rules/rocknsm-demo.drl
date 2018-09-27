@@ -17,26 +17,26 @@ end
 
 rule "Flag more than four DNS responses from the same host in the last 5 minutes"
 when
-	BroFact( getTextField("/@system") == "dns", $host : getTextField("/id_resp_h") ) over window:length(1)
+	BroFact( getTextField("/@stream") == "dns", $host : getTextField("/id_resp_h") ) over window:length(1)
 	$numberOfTimes : Number( intValue > 4 ) from accumulate (
-	    	$dnsRespCount : BroFact( getTextField("/@system") == "dns", getTextField("/id_resp_h") == $host ) over window:time(5m),
+	    	$dnsRespCount : BroFact( getTextField("/@stream") == "dns", getTextField("/id_resp_h") == $host ) over window:time(5m),
 		count($dnsRespCount))
 then
-	System.err.println("DNS response occurred " + $numberOfTimes + " in last five minutes");
+	System.err.println("Rule 0: DNS response occurred " + $numberOfTimes + " in last five minutes");
 end
 
 rule "BroFact test rule 1"
 when
 	bro : BroFact() over window:length(1)
 then
-	System.err.println("BroFact found " + bro.toString());
+	System.err.println("Rule 1: BroFact found " + bro.toString());
 end
 
 rule "BroFact test rule 2"
 when
 	bro : BroFact() over window:length(1)
-        eval( "dns".equals(bro.getTextField("/@system")) )
+        eval( "dns".equals(bro.getTextField("/@stream")) )
 then
-	System.err.println("BroFact found " + bro.toString());
+	System.err.println("Rule 2: BroFact found " + bro.toString());
 end
 
