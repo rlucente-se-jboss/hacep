@@ -22,6 +22,13 @@ when
 	    	$dnsRespCount : BroFact( getTextField("/@system") == "dns", getTextField("/id_resp_h") == $host ) over window:time(5m),
 		count($dnsRespCount))
 then
-	System.out.println("DNS response occurred " + $numberOfTimes + " in last five minutes");
+	System.err.println("DNS response occurred " + $numberOfTimes + " in last five minutes");
+end
+
+rule "BroFact test rule"
+when
+	BroFact() over window:length(1)
+then
+	System.err.println("BroFact found");
 end
 
