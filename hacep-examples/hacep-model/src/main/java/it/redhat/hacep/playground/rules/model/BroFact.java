@@ -619,7 +619,8 @@ public class BroFact implements Fact {
 	public void setUdp_conns(Long udp_conns) {
 		this.udp_conns = udp_conns;
 	}
-    public Object get(String fieldName){
+
+	public Object get(String fieldName){
         return this.properties.get(fieldName);
     }
 
