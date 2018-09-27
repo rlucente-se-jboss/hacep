@@ -18,6 +18,7 @@ public class BroFact extends JsonFact {
 		super(id, jsonString);
 		this.system = system;
 		this.timestamp = timestamp;
+		System.err.println(this.toString());
 	}
 
 	@Override
@@ -67,6 +68,7 @@ public class BroFact extends JsonFact {
                 "id=" + id +
                 ", system=" + system +
                 ", timestamp=" + timestamp +
+                ", jsonString=" + jsonString +
                 '}';
     }
 }
