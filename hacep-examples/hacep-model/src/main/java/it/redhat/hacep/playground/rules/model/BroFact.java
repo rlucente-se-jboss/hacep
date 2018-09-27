@@ -2,8 +2,11 @@ package it.redhat.hacep.playground.rules.model;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
@@ -88,6 +91,9 @@ public class BroFact implements Fact {
 	protected Long trans_id;
 	protected Long udp_conns;
 
+	// catch all for remaining JSON values
+	protected Map<String, Object> properties = new HashMap<>();
+    
 	public BroFact() {
 	}
 
@@ -613,6 +619,14 @@ public class BroFact implements Fact {
 	public void setUdp_conns(Long udp_conns) {
 		this.udp_conns = udp_conns;
 	}
+    public Object get(String fieldName){
+        return this.properties.get(fieldName);
+    }
+
+    @JsonAnySetter
+    public void set(String fieldName, Object value){
+        this.properties.put(fieldName, value);
+    }
 
 	@Override
 	public boolean equals(Object o) {
