@@ -5,7 +5,7 @@ import it.redhat.hacep.playground.rules.model.SuricataFact;
 
 declare BroFact
     @role( event )
-    @timestamp( timestamp.getTime() )
+    @timestamp( ts.getTime() )
     @expires( 10m )
 end
 
