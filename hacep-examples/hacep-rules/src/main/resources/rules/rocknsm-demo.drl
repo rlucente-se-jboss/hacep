@@ -25,11 +25,18 @@ then
 	System.err.println("DNS response occurred " + $numberOfTimes + " in last five minutes");
 end
 
-rule "BroFact test rule"
+rule "BroFact test rule 1"
 when
-	$bro : BroFact() over window:length(1)
-        eval( $bro.getTextField("/@system").equals("dns") )
+	bro : BroFact() over window:length(1)
 then
-	System.err.println("BroFact found " + $bro.toString());
+	System.err.println("BroFact found " + bro.toString());
+end
+
+rule "BroFact test rule 2"
+when
+	bro : BroFact() over window:length(1)
+        eval( "dns".equals(bro.getTextField("/@system")) )
+then
+	System.err.println("BroFact found " + bro.toString());
 end
 
