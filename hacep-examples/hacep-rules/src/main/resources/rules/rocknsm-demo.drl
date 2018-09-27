@@ -27,7 +27,8 @@ end
 
 rule "BroFact test rule"
 when
-	$bro : BroFact( getTextField("/@system") == "dns" ) over window:length(1)
+	$bro : BroFact() over window:length(1)
+        eval( $bro.getTextField("/@system").equals("dns") )
 then
 	System.err.println("BroFact found " + $bro.toString());
 end
