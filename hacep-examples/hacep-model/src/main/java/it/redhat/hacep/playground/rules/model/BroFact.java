@@ -114,6 +114,11 @@ public class BroFact implements Fact {
 	}
 
 	@JsonIgnore
+	public String getIdAsString() {
+		return Long.toString(id);
+	}
+
+	@JsonIgnore
 	public void setId(long id) {
 		this.id = id;
 	}
