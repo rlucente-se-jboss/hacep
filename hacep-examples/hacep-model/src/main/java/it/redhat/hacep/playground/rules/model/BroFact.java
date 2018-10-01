@@ -124,12 +124,12 @@ public class BroFact implements Fact {
 	}
 
 	@JsonGetter("@system")
-	public String getAt_system() {
+	public String get_at_system() {
 		return _at_system;
 	}
 
 	@JsonSetter("@system")
-	public void setAt_system(String _at_system) {
+	public void set_at_system(String _at_system) {
 		this._at_system = _at_system;
 	}
 
@@ -142,22 +142,22 @@ public class BroFact implements Fact {
 	}
 
 	@JsonGetter("@proc")
-	public String getAt_proc() {
+	public String get_at_proc() {
 		return _at_proc;
 	}
 
 	@JsonSetter("@proc")
-	public void setAt_proc(String _at_proc) {
+	public void set_at_proc(String _at_proc) {
 		this._at_proc = _at_proc;
 	}
 
 	@JsonGetter("@stream")
-	public String getAt_stream() {
+	public String get_at_stream() {
 		return _at_stream;
 	}
 
 	@JsonSetter("@stream")
-	public void setAt_stream(String _at_stream) {
+	public void set_at_stream(String _at_stream) {
 		this._at_stream = _at_stream;
 	}
 
