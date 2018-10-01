@@ -88,12 +88,12 @@ public class SuricataFact implements Fact {
 	}
 
 	@JsonGetter("@timestamp")
-	public Date get_at_timestamp() {
+	public Date getAt_timestamp() {
 		return _at_timestamp;
 	}
 
 	@JsonSetter("@timestamp")
-	public void set_at_timestamp(Date _at_timestamp) {
+	public void setAt_timestamp(Date _at_timestamp) {
 		this._at_timestamp = _at_timestamp;
 	}
 
